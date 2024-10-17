@@ -1,0 +1,43 @@
+@use "sass:map";
+
+// Primitives
+@mixin create-token($name, $type, $value) {
+	@property --#{$name} {
+		syntax        : $type;
+		inherits      : false;
+		initial-value : $value;
+	}
+}
+
+@mixin create-color($name, $value) {
+	@include create-token($name, '<color>', $value);
+}
+
+@mixin create-size($name, $value) {
+	@include create-token($name, '*', $value);
+}
+
+@mixin create-token-map($tokens, $type) {
+	@each $name, $value in $tokens {
+		@if ($type == color) {
+			@include create-color($name, $value);
+		} @else {
+			@include create-size($name, $value);
+		}
+	}
+}
+
+// Semantics
+@mixin create-semantic($name, $value, $map) {
+	@if (map.has-key($map, $value)) {
+		--#{$name} : var(--#{$value}, #{map.get($map, $value)});
+	} @else {
+		@debug '⚠ $value "#{$value}" doesn\'t exist in primitive the map.';
+	}
+}
+
+@mixin create-semantic-map($semantics, $primitives) {
+	@each $name, $value in $semantics {
+		@include create-semantic($name, $value, $primitives);
+	}
+}

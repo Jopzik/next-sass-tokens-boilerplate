@@ -1,33 +1,32 @@
-@mixin create-token($name, $type, $value) {
-	@property --#{$name} {
-		syntax        : '<#{$type}>';
-		inherits      : false;
-		initial-value : $value;
-	}
-}
-
-@mixin create-color($name, $value) {
-	@include create-token($name, color, $value);
-}
-
-@mixin create-spacing($name, $value) {
-	@include create-token($name, number, $value);
-}
-
-@mixin create-token-map($tokens, $type : color) {
-	@each $name, $value in $tokens {
-		@if ($type == spacing) {
-			@include create-spacing($name, $value);
-		} @else {
-			@include create-color($name, $value);
-		}
-	}
-}
-
-$primitive-colors : (
+$primitive-colors      : (
 		black-000 : black,
 		black-100 : #F5F5F5,
 		white-900 : #FFFFFF,
 );
 
-@include create-token-map($primitive-colors);
+$primitive-font-sizes  : (
+		font-size-150 : #{rem(12px)},
+		font-size-175 : #{rem(14px)},
+		font-size-200 : #{rem(16px)},
+		font-size-250 : #{rem(20px)},
+		font-size-400 : #{rem(32px)},
+		font-size-500 : #{rem(40px)},
+		font-size-600 : #{rem(48px)},
+		font-size-800 : #{rem(64px)},
+);
+
+$primitive-font-family : (
+		font-family-primary : Coolvetica,
+		font-family-secondary: 'Open Sans',
+);
+
+$primitive-font-weight : (
+		font-weight-400 : 400,
+		font-weight-600 : 600,
+		font-weight-700 : 700,
+);
+
+@include create-token-map($primitive-colors, color);
+@include create-token-map($primitive-font-sizes, size);
+@include create-token-map($primitive-font-family, family);
+@include create-token-map($primitive-font-weight, weight);

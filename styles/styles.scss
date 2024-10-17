@@ -5,6 +5,9 @@
 @import 'config/units';
 @import 'config/media-queries';
 
+// Mixins
+@import 'mixins/tokens';
+
 @layer reset {
 	@import 'reset/reset';
 }
@@ -12,6 +15,7 @@
 @layer base {
 	@import 'base/primitives';
 	@import 'base/semantics';
+	@import 'base/typography';
 	@import 'base/base';
 	@import 'base/utility';
 }
