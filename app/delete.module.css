@@ -1,0 +1,8 @@
+.container {
+  display          : grid;
+  place-content    : center;
+  width            : 100svw;
+  height           : 100svh;
+  background-color : #F2F2F2;
+  text-align       : center;
+}
