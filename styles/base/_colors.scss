@@ -1,6 +1,7 @@
 $semantic-colors : (
-	color-text-content : veneco,
-	color-text-content-light : white-900,
+		color-text-prominent     : black-000,
+		color-text-content       : grey-100,
+		color-text-content-light : veneco,
 );
 
 @include create-semantic-map($semantic-colors, $primitive-colors);

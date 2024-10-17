@@ -1,0 +1,52 @@
+/* ----- Content ----- */
+body,
+.content-base {
+	color       : var(--color-text-content);
+	font-family : var(--font-family-content);
+	font-size   : var(--font-size-content-base);
+	line-height : var(--font-height-content);
+}
+
+.content-big {
+	font-size : var(--font-size-content-big);
+}
+
+.content-small {
+	font-size : var(--font-size-content-small);
+}
+
+.content-smaller {
+	font-size : var(--font-size-content-smaller);
+}
+
+/* ----- Titles ----- */
+h1, h2, h3, h4, h5, h6,
+.title-biggest,
+.title-big,
+.title-base,
+.title-small,
+.title-smaller {
+	color       : var(--color-text-prominent);
+	font-family : var(--font-family-title);
+	line-height : var(--font-height-title);
+}
+
+.title-biggest {
+	font-size : var(--font-size-title-biggest);
+}
+
+.title-big {
+	font-size : var(--font-size-title-big);
+}
+
+.title-base {
+	font-size : var(--font-size-title-base);
+}
+
+.title-small {
+	font-size : var(--font-size-title-small);
+}
+
+.title-smaller {
+	font-size : var(--font-size-title-smaller);
+}
