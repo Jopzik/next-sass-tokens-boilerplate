@@ -1,0 +1,6 @@
+@layer 'base', 'modules', 'components';
+
+@layer base {
+	@import 'base/base';
+	@import 'base';
+}
