@@ -1,0 +1,8 @@
+export const mediaFromSm = '(min-width: 640px)'
+export const mediaToSm = '(max-width: 639.9px)'
+export const mediaFromMd = '(min-width: 768px)'
+export const mediaToMd = '(max-width: 767.9px)'
+export const mediaFromLg = '(min-width: 1024px)'
+export const mediaToLg = '(max-width: 1023.9px)'
+export const mediaFromXl = '(min-width: 1440px)'
+export const mediaToXl = '(max-width : 1439.9px)'
