@@ -10,6 +10,7 @@
 }
 
 @layer base {
+	@import 'base/primitives';
 	@import 'base/base';
 	@import 'base/utility';
 }

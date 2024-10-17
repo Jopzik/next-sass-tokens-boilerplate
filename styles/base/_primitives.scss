@@ -1,0 +1,35 @@
+@mixin create-token($name, $type, $value) {
+	@property --#{$name} {
+		syntax        : '<#{$type}>';
+		inherits      : false;
+		initial-value : $value;
+	}
+}
+
+@mixin create-color($name, $value) {
+	@include create-token($name, color, $value);
+}
+
+@mixin create-spacing($name, $value) {
+	@include create-token($name, number, $value);
+}
+
+@mixin create-token-map($tokens, $type : color) {
+	@each $token in $tokens {
+		$name  : nth($token, 1);
+		$value : nth($token, 2);
+		@if ($type == spacing) {
+			@include create-spacing($name, $value);
+		} @else {
+			@include create-color($name, $value);
+		}
+	}
+}
+
+$primitive-colors : (
+		black-000 : black,
+		black-100 : #F5F5F5,
+		white-900 : #FFFFFF,
+);
+
+@include create-token-map($primitive-colors);
