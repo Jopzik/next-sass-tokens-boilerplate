@@ -1,0 +1,13 @@
+$semantic-font-sizes : (
+				(font-size-title-biggest, font-size-600, font-size-800),
+				(font-size-title-big, font-size-500, font-size-600),
+				(font-size-title-base, font-size-400, font-size-500),
+				(font-size-title-small, font-size-250, font-size-400),
+				(font-size-title-smaller, font-size-200, font-size-250),
+				(font-size-content-big, font-size-250),
+				(font-size-content-base, font-size-200),
+				(font-size-content-small, font-size-175),
+				(font-size-content-smaller, font-size-150),
+);
+
+@include create-semantic-map($semantic-font-sizes, $primitive-font-sizes);

@@ -1,4 +1,4 @@
-@use "sass:map";
+@use 'sass:map';
 
 // Primitives
 @mixin create-token($name, $type, $value) {
@@ -37,7 +37,17 @@
 }
 
 @mixin create-semantic-map($semantics, $primitives) {
-	@each $name, $value in $semantics {
-		@include create-semantic($name, $value, $primitives);
+	:root {
+		@each $name, $value, $second-value in $semantics {
+			@include create-semantic($name, $value, $primitives);
+		}
+		// Change font-size token in desktop
+		@include from(lg) {
+			@each $name, $value, $second-value in $semantics {
+				@if ($second-value) {
+					@include create-semantic($name, $second-value, $primitives);
+				}
+			}
+		}
 	}
 }

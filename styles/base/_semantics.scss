@@ -3,6 +3,4 @@ $semantic-colors : (
 	color-text-content-light : white-900,
 );
 
-:root {
-	@include create-semantic-map($semantic-colors, $primitive-colors);
-}
+@include create-semantic-map($semantic-colors, $primitive-colors);
