@@ -1,5 +1,6 @@
 .container {
   display          : grid;
+  place-items      : center;
   place-content    : center;
   width            : 100svw;
   height           : 100svh;
