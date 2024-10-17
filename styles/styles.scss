@@ -1,6 +1,19 @@
-@layer 'base', 'modules', 'components';
+@layer 'reset', 'base', 'modules', 'components';
+
+// Config
+@import 'config/variables';
+@import 'config/units';
+@import 'config/media-queries';
+
+@layer reset {
+	@import 'reset/reset';
+}
 
 @layer base {
 	@import 'base/base';
-	@import 'base';
+	@import 'base/utility';
+}
+
+@layer modules {
+
 }

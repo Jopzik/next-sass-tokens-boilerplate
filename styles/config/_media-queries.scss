@@ -1,0 +1,193 @@
+// *
+// * Return true if the breakpoint is part of the core
+// * @param  {number}  $bp - breakpoint
+// *
+// * EXAMPLE
+// * .element {
+// *    @if isCoreBreakpoint(lg) {
+// *      ...
+// *    }
+// *  }
+// *
+
+@function is-core-breakpoint($bp) {
+	@if map-get($breakpoints, $bp) {
+		@return true;
+	} @else {
+		@return false;
+	}
+}
+
+
+// *
+// * Return true if it's a valid breakpoint (en, rem, px)
+// * @param  {number}  $bp - breakpoint to evaluate
+// *
+
+@function is-valid-breakpoint($bp) {
+	@if type-of($bp) == number and (unit($bp) == 'px' or unit($bp) == 'em' or unit($bp) == 'rem') {
+		@return true;
+	} @else {
+		@return false;
+	}
+}
+
+
+// *
+// * Get a breakpoint from core
+// * @param  {number}  $bp - breakpoint to get
+// *
+
+@function get-bp($bp) {
+	@return map-get($breakpoints, $bp);
+}
+
+// *
+// * From (larger than breakpoint)
+// * @param  {number}  $from - breakpoint
+// *
+// * EXAMPLE
+// * .element {
+// *   width : 30%;
+// *   @include from(m) {
+// *     width : 50%;
+// *   }
+// * }
+// *
+
+@mixin from($from) {
+	// If the bp exists in the core
+	@if is-core-breakpoint($from) {
+		// Don't print media query for size 's'
+		@if $from == s {
+			@content;
+		} @else {
+			@media (width >= get-bp($from)) {
+				@content;
+			}
+		}
+	}
+		// If bp doesn't exist in the core, but is a valid unit
+	@else if is-valid-breakpoint($from) {
+		@media (width >= $from) {
+			@content;
+		}
+	}
+		// Error
+	@else {
+		@error 'Mixin from() requires a breakpoint for core (#{map-keys($breakpoints)}) or a rem, em or px units as argument';
+	}
+}
+
+
+// *
+// * To (smaller than breakpoint)
+// * @param  {number}  $to - breakpoint
+// *
+// * EXAMPLE
+// * .element {
+// *   width : 30%;
+// *   @include to(m) {
+// *     width : 50%;
+// *   }
+// * }
+// *
+
+@mixin to($to) {
+	// If the bp exists in the core
+	@if is-core-breakpoint($to) {
+		@if $to == s {
+			@content;
+		} @else {
+			@media (width <= get-bp($to) - 1px) {
+				@content;
+			}
+		}
+	}
+		// If bp doesn't exist in the core, but is a valid unit
+	@else if is-valid-breakpoint($to) {
+		@media (width <= px($to) - 1px) {
+			@content;
+		}
+	}
+		// Error
+	@else {
+		@error 'Mixin to() requires a breakpoint for core (#{map-keys($breakpoints)}) or a rem, em or px units as argument';
+	}
+}
+
+
+// *
+// * from-to rule runs between both breakpoints
+// * @param  {number}  $from - Starting breakpoint
+// * @param  {number}  $to - Termination breakpoint
+// *
+// * EXAMPLE
+// * .element {
+// *   background-color: cyan;
+// *   @include from-to(m, lg) {
+// *       background-color: darken(cyan, 0.8);
+// *   }
+// * }
+
+@mixin from-to($from, $to) {
+	$error-message-second-bp   : 'The second breakpoint in from-to() must be bigger than the first';
+	$error-message-bp-no-valid : 'breakpoint in from-to() should be in core (#{map-keys($breakpoints)}) or a rem, em or px units';
+	
+	// If both breakpoints exist in the core
+	@if is-core-breakpoint($from) and is-core-breakpoint($to) {
+		@if get-bp($to) > get-bp($from) {
+			@media (width >= get-bp($from)) and (width <= get-bp($to) - 1px) {
+				@content;
+			}
+		} @else {
+			@error $error-message-second-bp;
+		}
+	}
+		
+		// If only $from exist in the core
+	@else if is-core-breakpoint($from) and not is-core-breakpoint($to) {
+		@if is-valid-breakpoint($to) {
+			@if px($to) > px(get-bp($from)) {
+				@media (width >= get-bp($from)) and (width <= px($to) - 1px) {
+					@content;
+				}
+			} @else {
+				@error $error-message-second-bp;
+			}
+		} @else {
+			@error 'Second #{$error-message-bp-no-valid}';
+		}
+	}
+		
+		// If only $to exist in the core
+	@else if not is-core-breakpoint($from) and is-core-breakpoint($to) {
+		@if is-valid-breakpoint($from) {
+			@if px(get-bp($to)) > px($from) {
+				@media (width >= $from) and (width <= get-bp($to) - 1px) {
+					@content;
+				}
+			} @else {
+				@error $error-message-second-bp;
+			}
+		} @else {
+			@error 'First #{$error-message-bp-no-valid}';
+		}
+	}
+		
+		// If both aren't breakpoints in the core, but they're valid value (px, em, rem)
+	@else if is-valid-breakpoint($from) and is-valid-breakpoint($to) {
+		@if px($to) > px($from) {
+			@media (width >= $from) and (width <= px($to) - 1px) {
+				@content;
+			}
+		} @else {
+			@error $error-message-second-bp;
+		}
+	}
+		
+		// If almost one breakpoint is not valid
+	@else {
+		@error 'Arguments (first, second) #{$error-message-bp-no-valid}';
+	}
+}
