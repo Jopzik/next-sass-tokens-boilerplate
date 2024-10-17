@@ -15,9 +15,7 @@
 }
 
 @mixin create-token-map($tokens, $type : color) {
-	@each $token in $tokens {
-		$name  : nth($token, 1);
-		$value : nth($token, 2);
+	@each $name, $value in $tokens {
 		@if ($type == spacing) {
 			@include create-spacing($name, $value);
 		} @else {
