@@ -10,4 +10,16 @@ $semantic-font-sizes : (
 				(font-size-content-smaller, font-size-150),
 );
 
+$semantic-font-families : (
+	font-family-title   : font-family-primary,
+	font-family-content : font-family-secondary,
+);
+
+$semantic-font-heights : (
+	font-height-title   : font-height-01,
+	font-height-content : font-height-02
+);
+
 @include create-semantic-map($semantic-font-sizes, $primitive-font-sizes);
+@include create-semantic-map($semantic-font-families, $primitive-font-families);
+@include create-semantic-map($semantic-font-heights, $primitive-font-heights);

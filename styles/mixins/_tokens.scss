@@ -3,27 +3,16 @@
 // Primitives
 @mixin create-token($name, $type, $value) {
 	@property --#{$name} {
-		syntax        : $type;
+		syntax        : if($type != '*', '<#{$type}>', $type);
 		inherits      : false;
-		initial-value : $value;
+		// initial-value uses #{} to remove extra quotes in strings like font-family.
+		initial-value : #{$value};
 	}
 }
 
-@mixin create-color($name, $value) {
-	@include create-token($name, '<color>', $value);
-}
-
-@mixin create-size($name, $value) {
-	@include create-token($name, '*', $value);
-}
-
-@mixin create-token-map($tokens, $type) {
+@mixin create-token-map($tokens, $type : "*") {
 	@each $name, $value in $tokens {
-		@if ($type == color) {
-			@include create-color($name, $value);
-		} @else {
-			@include create-size($name, $value);
-		}
+		@include create-token($name, $type, $value);
 	}
 }
 
@@ -31,6 +20,7 @@
 @mixin create-semantic($name, $value, $map) {
 	@if (map.has-key($map, $value)) {
 		--#{$name} : var(--#{$value}, #{map.get($map, $value)});
+		@debug  #{map.get($map, $value)};
 	} @else {
 		@debug '⚠ $value "#{$value}" doesn\'t exist in primitive the map.';
 	}
