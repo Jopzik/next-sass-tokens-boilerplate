@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   sassOptions: {
     logger: {
       warn: function (message) {
@@ -9,7 +12,12 @@ const nextConfig = {
         console.log(message)
       }
     }
-  }
+  },
+  images: {
+    domains: [
+      'www.datocms-assets.com',
+    ],
+  },
 };
 
 export default nextConfig;

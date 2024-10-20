@@ -3,7 +3,28 @@
   place-items      : center;
   place-content    : center;
   width            : 100svw;
-  height           : 100svh;
+  min-height       : 80svh;
   background-color : #F2F2F2;
   text-align       : center;
+}
+
+.posts {
+  display : grid;
+  gap     : 1rem;
+  padding : 1rem 2rem;
+}
+
+.post {
+  display       : flex;
+  gap           : 1rem;
+  padding       : 1rem;
+  border        : 1px solid grey;
+  border-radius : 1rem;
+}
+
+.cover {
+  aspect-ratio  : 1 / 1;
+  object-fit    : cover;
+  max-width     : 100px;
+  border-radius : 0.5rem;
 }

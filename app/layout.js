@@ -1,8 +1,7 @@
-import localFont from 'next/font/local'
 import '../styles/styles.scss'
 
 export const metadata = {
-  title: 'Next Boilerplate + Design Tokens',
+  title: 'Next Boilerplate + Design Tokens + datoCMS',
   description: 'By Alexis Mora (Jopzik).',
 }
 
@@ -13,5 +12,5 @@ export default function RootLayout({ children }) {
         {children}
       </body>
     </html>
-  )
+  );
 }
