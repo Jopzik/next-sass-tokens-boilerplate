@@ -1,5 +1,14 @@
+
+'use client'
+import { useEffect } from 'react'
+
+
 export function PostPage({ data }) {
   const { post } = data
+  
+  useEffect(() => {
+    console.log(data)
+  }, [data])
   
   return (
     <section>

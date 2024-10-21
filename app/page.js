@@ -1,35 +1,30 @@
-import s from '../app/delete.module.css'
-import { BoxAdd } from 'iconsax-react'
+import HomePage from '@/components/Pages/HomePage'
 import { performRequest } from '@/lib/datocms'
-import { metaTagsFragment, responsiveImageFragment } from '@/lib/fragments'
-
-import PostsList from '@/components/PostsList'
+import { metaDataFragment, responsiveImageFragment, metaTagsFragment } from '@/lib/fragments'
+import { setMetaData } from '@/utils/metadata-datocms'
 
 const PAGE_CONTENT_QUERY = `
   {
-    site: _site {
-      favicon: faviconMetaTags {
-        ...metaTagsFragment
-      }
-    }
-    page {
+    ${metaDataFragment}
+    homePage {
       title
       caption
+      seo {
+        title
+        description
+      }
     }
-    allPosts(orderBy: date_DESC, first: 20) {
+    allPosts {
       title
       slug
-      excerpt
-      date
+      id
       coverImage {
-        responsiveImage(imgixParams: {fm: jpg, fit: crop, w: 2000, h: 1000 }) {
+        responsiveImage {
           ...responsiveImageFragment
         }
       }
     }
   }
-
-  ${metaTagsFragment}
   ${responsiveImageFragment}
 `
 
@@ -41,21 +36,12 @@ export default async function Page() {
   const pageRequest = getPageRequest()
   const data = await performRequest(pageRequest)
   
-  return (
-    <>
-      <div className={s.container}>
-        <BoxAdd
-          size="128"
-          color="#0573E6"
-          variant="Bulk"
-        />
-        <h1>{data.page.title}</h1>
-        <a
-          target="_blank"
-          href="https://www.alexismora.design/"
-        >{data.page.caption}</a>
-      </div>
-      <PostsList data={data} />
-    </>
-  )
+  return <HomePage data={data} />
+}
+
+export async function generateMetadata({}) {
+  const pageRequest = getPageRequest()
+  const data = await performRequest(pageRequest)
+  const seo = data?.homePage?.seo
+  return setMetaData(seo?.title, data?._site?.globalSeo?.siteName, seo.description)
 }

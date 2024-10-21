@@ -12,7 +12,6 @@ const Post = ({ title, slug, cover }) => {
         <h3>{title}</h3>
         <Link
           href={`/posts/${slug}`}
-          className="hover:underline"
         >See more</Link>
       </div>
     </article>

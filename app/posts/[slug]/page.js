@@ -1,9 +1,8 @@
-import { toNextMetadata } from 'react-datocms'
-
 import { performRequest } from '@/lib/datocms'
-import { metaTagsFragment, responsiveImageFragment } from '@/lib/fragments'
+import { metaDataFragment, metaTagsFragment, responsiveImageFragment } from '@/lib/fragments'
 
 import { PostPage } from '@/components/Pages/PostPage'
+import { setMetaData } from '@/utils/metadata-datocms'
 
 export async function generateStaticParams() {
   const { allPosts } = await performRequest({ query: `{ allPosts { slug } }` })
@@ -13,11 +12,7 @@ export async function generateStaticParams() {
 
 const PAGE_CONTENT_QUERY = `
   query PostBySlug($slug: String) {
-    site: _site {
-      favicon: faviconMetaTags {
-        ...metaTagsFragment
-      }
-    }
+    ${metaDataFragment}
     post(filter: {slug: {eq: $slug}}) {
       seo: _seoMetaTags {
         ...metaTagsFragment
@@ -49,7 +44,6 @@ const PAGE_CONTENT_QUERY = `
       }
     }
   }
-
   ${responsiveImageFragment}
   ${metaTagsFragment}
 `
@@ -58,17 +52,15 @@ function getPageRequest(slug) {
   return { query: PAGE_CONTENT_QUERY, variables: { slug } }
 }
 
-export async function generateMetadata({ params }) {
-  const { site, post } = await performRequest(getPageRequest(params.slug))
-  
-  return toNextMetadata([...site.favicon, ...post.seo])
-}
-
 export default async function Page({ params }) {
-  
   const pageRequest = getPageRequest(params.slug)
   const data = await performRequest(pageRequest)
   
-  
   return <PostPage data={data} />
+}
+
+export async function generateMetadata({}) {
+  const pageRequest = getPageRequest()
+  const data = await performRequest(pageRequest)
+  return setMetaData(data?.post?.title, data?._site?.globalSeo?.siteName)
 }
